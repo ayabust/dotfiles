@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# find tests/ -name "*Test.php" | xargs -P 16 -I {} symfony php vendor/bin/phpunit {};
+
+i=0
+testPath=$(find tests/ -name "*Test.php")
+while read -r testPath; do
+    i=$((i + 1))
+    echo "Running test $testPath"
+    echo "Running test :: $testPath" >/tmp/test-$i.log
+    symfony php vendor/bin/phpunit $testPath >>/tmp/test-$i.log &
+done <<<"$testPath"
+
+wait
+
+find /tmp/test-*.log -exec cat {} \; 
+find /tmp/test-*.log -exec rm {} \;
