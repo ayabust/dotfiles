@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+find var/cache/{test,dev,prod} -mindepth 1 -maxdepth 1 ! -name "profiler" -exec rm -rf {} \; 2>/dev/null
